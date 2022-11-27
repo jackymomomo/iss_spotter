@@ -1,7 +1,8 @@
-const { fetchIP } = require('./iss')
+const { fetchCoordsByIP, fetchIP } = require('./iss')
 
 
-fetchIP((error, ip) => {
+
+fetchIP( (error, ip) => {
   if(error) {
     console.log("JS NOT ACCEPTED", error)
   } 
@@ -9,3 +10,10 @@ fetchIP((error, ip) => {
 })
 
 
+fetchCoordsByIP('207.216.152.109', (error, data) => {
+  if(error){
+    console.log(error.message)
+  } else {
+    console.log('you coordinates are', data)
+  }
+})

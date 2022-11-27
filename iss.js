@@ -21,7 +21,6 @@ const fetchIP = callback => {
       callback(Error(`Status.. ${response.statusCode}.. your local IP: ${body} `), null)
       return
     }
-     
       const data = JSON.parse(body).ip
      callback(null, data)
     
@@ -29,14 +28,24 @@ const fetchIP = callback => {
 };
 
 
-module.exports = { fetchIP }
+
+
+const fetchCoordsByIP = (data, callback) => {
+request(`http://ipwho.is/${data}`, (error, response, body) => {
+  if(error) return callback(error, null)
+
+  const parsedBod = JSON.parse(body)
+  
+  if(!parsedBod.success) {
+    const message = `Status.. ${parsedBod.success}.. your local Message: ${parsedBod.message} `
+    callback(Error(message), null)
+    return
+  }
+  const { latitude, longitude } = parsedBod
+  callback(null, {latitude, longitude})
+})
+}
 
 
 
- //(error, body) => {
-  //    if(error) {
-  //      return null;
-  //    } else {
-  //       const data =
-  //       console.log(data)
-  //    }
+module.exports = { fetchCoordsByIP, fetchIP }
